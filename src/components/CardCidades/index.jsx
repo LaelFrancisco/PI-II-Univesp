@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const CardsWrapper = styled.section`
   display: flex;
@@ -36,20 +37,21 @@ const CityCard = styled.div`
     font-weight: 600;
     margin: 1rem 0;
   }
+`;
 
-  button {
-    margin-bottom: 1rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    background: #007bff;
-    color: #fff;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s;
+const SaibaMais = styled(Link)`
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  text-decoration: none;
 
-    &:hover {
-      background: #0056b3;
-    }
+  &:hover {
+    background: #0056b3;
   }
 `;
 
@@ -60,7 +62,10 @@ export default function CardCidades({ cidades }) {
         <CityCard key={cidade.nome}>
           <img src={cidade.imagem} alt={`Foto de ${cidade.nome}`} />
           <h3>{cidade.nome}</h3>
-          <button>Saiba mais</button>
+
+          <SaibaMais to={`/eventos?cidade=${encodeURIComponent(cidade.nome)}`}>
+            Saiba mais
+          </SaibaMais>
         </CityCard>
       ))}
     </CardsWrapper>

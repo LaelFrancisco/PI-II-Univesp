@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
   Container,
   FilterWrapper,
@@ -32,7 +33,11 @@ const allEvents = [
 ];
 
 export default function Eventos() {
-  const [filtro, setFiltro] = useState("Todos");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const cidadeInicial = queryParams.get("cidade") || "Todos";
+
+  const [filtro, setFiltro] = useState(cidadeInicial);
 
   const cidades = ["Todos", "Águas de São Pedro", "Brotas", "São Pedro"];
 
@@ -40,6 +45,10 @@ export default function Eventos() {
     filtro === "Todos"
       ? allEvents
       : allEvents.filter((evento) => evento.cidade === filtro);
+
+  useEffect(() => {
+    setFiltro(cidadeInicial);
+  }, [cidadeInicial]);
 
   return (
     <Container>
