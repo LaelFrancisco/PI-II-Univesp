@@ -8,49 +8,6 @@ import {
   PointCard,
 } from "./styles";
 
-const allPoints = [
-  {
-    id: 1,
-    cidade: "Águas de São Pedro",
-    nome: "Balneário Municipal",
-    tipo: "Parque Aquático",
-    descricao: "Complexo de piscinas termais com águas naturais.",
-    horario: "08:00 - 18:00",
-  },
-  {
-    id: 2,
-    cidade: "Brotas",
-    nome: "Cachoeira do Saltinho",
-    tipo: "Natureza",
-    descricao: "Linda cachoeira com piscina natural para banho.",
-    horario: "09:00 - 17:00",
-  },
-  {
-    id: 3,
-    cidade: "São Pedro",
-    nome: "Museu da Cidade",
-    tipo: "Cultural",
-    descricao: "Museu com acervo histórico da região.",
-    horario: "10:00 - 16:00 (fechado às segundas)",
-  },
-  {
-    id: 4,
-    cidade: "Águas de São Pedro",
-    nome: "Parque Dr. Octavio Moura Andrade",
-    tipo: "Parque",
-    descricao: "Área verde ideal para caminhadas e piqueniques.",
-    horario: "06:00 - 20:00",
-  },
-  {
-    id: 5,
-    cidade: "Brotas",
-    nome: "Rio Jacaré-Pepira",
-    tipo: "Natureza",
-    descricao: "Rio de águas cristalinas para rafting e natação.",
-    horario: "24 horas",
-  },
-];
-
 export default function PontosTuristicos() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -58,17 +15,66 @@ export default function PontosTuristicos() {
 
   const [filtro, setFiltro] = useState(cidadeInicial);
 
-  // Extrai as cidades únicas dos pontos turísticos
-  const cidades = ["Todos", ...new Set(allPoints.map((point) => point.cidade))];
+  const [pontos, setPontos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
+
+  useEffect(() => {
+    const fetchPontos = async () => {
+      try {
+        setCarregando(true);
+        setErro(null);
+
+        const response = await fetch(
+          "http://localhost:5000/api/pontos-turisticos"
+        );
+
+        if (!response.ok) {
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setPontos(data);
+      } catch (error) {
+        console.error("Erro ao buscar pontos:", error);
+        setErro("Falha ao carregar pontos turísticos. Tente novamente.");
+      } finally {
+        setCarregando(false);
+      }
+    };
+
+    fetchPontos();
+  }, []);
+
+  const cidades = ["Todos", ...new Set(pontos.map((point) => point.cidade))];
 
   const pontosFiltrados =
     filtro === "Todos"
-      ? allPoints
-      : allPoints.filter((point) => point.cidade === filtro);
+      ? pontos
+      : pontos.filter((point) => point.cidade === filtro);
 
   useEffect(() => {
     setFiltro(cidadeInicial);
   }, [cidadeInicial]);
+
+  if (carregando) {
+    return (
+      <Container>
+        <h1>Pontos Turísticos</h1>
+        <p>Carregando pontos turísticos...</p>
+      </Container>
+    );
+  }
+
+  if (erro) {
+    return (
+      <Container>
+        <h1>Pontos Turísticos</h1>
+        <p style={{ color: "red" }}>{erro}</p>
+        <p>Verifique se o servidor back-end está rodando na porta 5000.</p>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -87,21 +93,27 @@ export default function PontosTuristicos() {
         ))}
       </FilterWrapper>
 
-      <PointsWrapper>
-        {pontosFiltrados.map((point) => (
-          <PointCard key={point.id}>
-            <h2>{point.nome}</h2>
-            <p className="tipo">{point.tipo}</p>
-            <p>{point.descricao}</p>
-            <div className="details">
-              <p>
-                <strong>Horário:</strong> {point.horario}
-              </p>
-            </div>
-            <span className="cidade">{point.cidade}</span>
-          </PointCard>
-        ))}
-      </PointsWrapper>
+      {pontosFiltrados.length === 0 ? (
+        <p>Nenhum ponto turístico encontrado.</p>
+      ) : (
+        <PointsWrapper>
+          {pontosFiltrados.map((point) => (
+            <PointCard key={point.id}>
+              <h2>{point.nome}</h2>
+              <p className="tipo">{point.tipo}</p>
+              <p>{point.descricao}</p>
+              <div className="details">
+                {point.horario && (
+                  <p>
+                    <strong>Horário:</strong> {point.horario}
+                  </p>
+                )}
+              </div>
+              <span className="cidade">{point.cidade}</span>
+            </PointCard>
+          ))}
+        </PointsWrapper>
+      )}
     </Container>
   );
 }
