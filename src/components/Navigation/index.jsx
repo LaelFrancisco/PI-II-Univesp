@@ -77,6 +77,8 @@ const navItems = [
   { path: "/cidades", label: "Cidades" },
   { path: "/eventos", label: "Eventos" },
   { path: "/pontos-turisticos", label: "Pontos Turísticos" },
+  { path: "/registro", label: "Registro" },
+  { path: "/login", label: "Login" },
 ];
 
 export default function Navigation({ $open = false }) {
