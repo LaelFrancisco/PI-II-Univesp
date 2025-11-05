@@ -7,6 +7,7 @@ import {
   PointsWrapper,
   PointCard,
 } from "./styles";
+import Comentarios from "../../components/Comentarios";
 
 export default function PontosTuristicos() {
   const location = useLocation();
@@ -108,8 +109,15 @@ export default function PontosTuristicos() {
                     <strong>Horário:</strong> {point.horario}
                   </p>
                 )}
+                {point.endereco && (
+                  <p>
+                    <strong>Endereço:</strong> {point.endereco}
+                  </p>
+                )}
               </div>
               <span className="cidade">{point.cidade}</span>
+
+              <Comentarios pontoId={point.id} />
             </PointCard>
           ))}
         </PointsWrapper>
