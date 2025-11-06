@@ -11,6 +11,7 @@ import {
   PointImagePlaceholder,
 } from "./styles";
 import Comentarios from "../../components/Comentarios";
+import API_URLS from "../../config/api";
 
 export default function PontosTuristicos() {
   const location = useLocation();
@@ -29,9 +30,7 @@ export default function PontosTuristicos() {
         setCarregando(true);
         setErro(null);
 
-        const response = await fetch(
-          "http://localhost:5000/api/pontos-turisticos"
-        );
+        const response = await fetch(API_URLS.PONTOS_TURISTICOS);
 
         if (!response.ok) {
           throw new Error(`Erro ${response.status}: ${response.statusText}`);

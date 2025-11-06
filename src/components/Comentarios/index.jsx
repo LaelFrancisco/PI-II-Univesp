@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import API_URLS from "../../config/api";
 import {
   Container,
   Title,
@@ -26,9 +27,7 @@ export default function Comentarios({ pontoId }) {
   useEffect(() => {
     const fetchComentarios = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/comentarios/ponto/${pontoId}`
-        );
+        const response = await fetch(API_URLS.COMENTARIOS_POR_PONTO(pontoId));
         if (!response.ok) {
           throw new Error("Erro ao carregar comentários");
         }
@@ -51,7 +50,7 @@ export default function Comentarios({ pontoId }) {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/comentarios", {
+      const response = await fetch(API_URLS.COMENTARIOS, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +69,7 @@ export default function Comentarios({ pontoId }) {
       }
 
       const comentariosResponse = await fetch(
-        `http://localhost:5000/api/comentarios/ponto/${pontoId}`
+        API_URLS.COMENTARIOS_POR_PONTO(pontoId)
       );
       const comentariosData = await comentariosResponse.json();
       setComentarios(comentariosData);

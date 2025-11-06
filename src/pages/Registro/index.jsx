@@ -15,6 +15,7 @@ import {
   LinkContainer,
   LinkText,
 } from "./styles";
+import API_URLS from "../../config/api";
 
 export default function Registro() {
   const navigate = useNavigate();
@@ -43,16 +44,13 @@ export default function Registro() {
     setSucesso("");
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/usuarios/registro",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(API_URLS.REGISTRO, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 

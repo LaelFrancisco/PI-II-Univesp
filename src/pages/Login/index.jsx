@@ -15,6 +15,7 @@ import {
   LinkContainer,
   LinkText,
 } from "./styles";
+import API_URLS from "../../config/api";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export default function Login() {
     setSucesso("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/usuarios/login", {
+      const response = await fetch(API_URLS.LOGIN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
