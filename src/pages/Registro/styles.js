@@ -122,6 +122,17 @@ export const ErrorMessage = styled.div`
   text-align: center;
 `;
 
+export const SuccessMessage = styled.div`
+  padding: 12px 16px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
 export const LinkContainer = styled.div`
   text-align: center;
   margin-top: 25px;

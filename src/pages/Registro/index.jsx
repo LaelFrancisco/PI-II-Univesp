@@ -11,6 +11,7 @@ import {
   Input,
   Button,
   ErrorMessage,
+  SuccessMessage,
   LinkContainer,
   LinkText,
 } from "./styles";
@@ -24,6 +25,7 @@ export default function Registro() {
   });
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
+  const [sucesso, setSucesso] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -38,6 +40,7 @@ export default function Registro() {
     e.preventDefault();
     setCarregando(true);
     setErro("");
+    setSucesso("");
 
     try {
       const response = await fetch(
@@ -60,7 +63,11 @@ export default function Registro() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-      navigate("/");
+      setSucesso("✅ Conta criada com sucesso! Redirecionando...");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       console.error("Erro no registro:", error);
       setErro(error.message);
@@ -74,9 +81,8 @@ export default function Registro() {
       <FormCard>
         <Title>Criar Conta</Title>
         <Subtitle>Junte-se à nossa comunidade de viajantes</Subtitle>
-
         {erro && <ErrorMessage>{erro}</ErrorMessage>}
-
+        {sucesso && <SuccessMessage>{sucesso}</SuccessMessage>}{" "}
         <Form onSubmit={handleSubmit}>
           <InputGroup>
             <Label htmlFor="nome">Nome completo</Label>
@@ -88,7 +94,7 @@ export default function Registro() {
               onChange={handleChange}
               placeholder="Digite seu nome completo"
               required
-              disabled={carregando}
+              disabled={carregando || sucesso}
             />
           </InputGroup>
 
@@ -102,7 +108,7 @@ export default function Registro() {
               onChange={handleChange}
               placeholder="seu@email.com"
               required
-              disabled={carregando}
+              disabled={carregando || sucesso}
             />
           </InputGroup>
 
@@ -116,15 +122,28 @@ export default function Registro() {
               onChange={handleChange}
               placeholder="Crie uma senha segura"
               required
-              disabled={carregando}
+              disabled={carregando || sucesso}
             />
           </InputGroup>
 
-          <Button type="submit" disabled={carregando}>
-            {carregando ? "Cadastrando..." : "Criar Conta"}
+          <Button
+            type="submit"
+            disabled={carregando || sucesso}
+            style={{
+              backgroundColor: sucesso
+                ? "#28a745"
+                : carregando
+                ? "#9ca3af"
+                : "#2563eb",
+            }}
+          >
+            {carregando
+              ? "Cadastrando..."
+              : sucesso
+              ? "✅ Redirecionando..."
+              : "Criar Conta"}
           </Button>
         </Form>
-
         <LinkContainer>
           <LinkText>
             Já tem uma conta? <Link to="/login">Faça login</Link>

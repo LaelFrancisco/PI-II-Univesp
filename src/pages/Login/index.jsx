@@ -11,6 +11,7 @@ import {
   Input,
   Button,
   ErrorMessage,
+  SuccessMessage,
   LinkContainer,
   LinkText,
 } from "./styles";
@@ -23,6 +24,7 @@ export default function Login() {
   });
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
+  const [sucesso, setSucesso] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -36,6 +38,7 @@ export default function Login() {
     e.preventDefault();
     setCarregando(true);
     setErro("");
+    setSucesso("");
 
     try {
       const response = await fetch("http://localhost:5000/api/usuarios/login", {
@@ -55,7 +58,11 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-      navigate("/");
+      setSucesso("✅ Login realizado com sucesso! Redirecionando...");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       console.error("Erro no login:", error);
       setErro(error.message);
@@ -69,9 +76,8 @@ export default function Login() {
       <FormCard>
         <Title>Bem-vindo de volta</Title>
         <Subtitle>Entre na sua conta para continuar</Subtitle>
-
         {erro && <ErrorMessage>{erro}</ErrorMessage>}
-
+        {sucesso && <SuccessMessage>{sucesso}</SuccessMessage>}{" "}
         <Form onSubmit={handleSubmit}>
           <InputGroup>
             <Label htmlFor="email">E-mail</Label>
@@ -83,7 +89,7 @@ export default function Login() {
               onChange={handleChange}
               placeholder="seu@email.com"
               required
-              disabled={carregando}
+              disabled={carregando || sucesso}
             />
           </InputGroup>
 
@@ -97,15 +103,28 @@ export default function Login() {
               onChange={handleChange}
               placeholder="Sua senha"
               required
-              disabled={carregando}
+              disabled={carregando || sucesso}
             />
           </InputGroup>
 
-          <Button type="submit" disabled={carregando}>
-            {carregando ? "Entrando..." : "Entrar"}
+          <Button
+            type="submit"
+            disabled={carregando || sucesso}
+            style={{
+              backgroundColor: sucesso
+                ? "#28a745"
+                : carregando
+                ? "#9ca3af"
+                : "#16a34a",
+            }}
+          >
+            {carregando
+              ? "Entrando..."
+              : sucesso
+              ? "✅ Redirecionando..."
+              : "Entrar"}
           </Button>
         </Form>
-
         <LinkContainer>
           <LinkText>
             Não tem uma conta? <Link to="/registro">Cadastre-se</Link>

@@ -119,7 +119,6 @@ export default function PontosTuristicos() {
                 </PointImagePlaceholder>
               )}
               <h2>{point.nome}</h2>
-              <p className="tipo">{point.tipo}</p>
               <p>{point.descricao}</p>
               <div className="details">
                 {point.horario && (
