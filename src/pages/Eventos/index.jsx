@@ -6,6 +6,7 @@ import {
   FilterButton,
   EventsWrapper,
   EventCard,
+  Subtitle,
 } from "./styles";
 
 export default function Eventos() {
@@ -76,7 +77,7 @@ export default function Eventos() {
   return (
     <Container>
       <h1>Eventos</h1>
-      <p>Confira os próximos eventos na nossa região</p>
+      <Subtitle>Confira os próximos eventos na nossa região</Subtitle>
 
       <FilterWrapper>
         {cidades.map((cidade) => (

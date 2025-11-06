@@ -9,6 +9,23 @@ export const Container = styled.div`
     text-align: center;
     margin-bottom: 1.5rem;
   }
+
+  p {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+`;
+
+export const Subtitle = styled.p`
+  font-size: 1.125rem;
+  color: #374151;
+  text-align: center;
+  margin: 0.75rem 0 2rem 0;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-weight: 500;
 `;
 
 export const FilterButton = styled.button`
@@ -94,5 +111,34 @@ export const PointCard = styled.div`
     border-radius: 20px;
     font-size: 0.8rem;
     margin-top: 0.5rem;
+  }
+`;
+
+export const PointImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    height: 250px;
+  }
+`;
+
+export const PointImagePlaceholder = styled.div`
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+
+  @media (min-width: 768px) {
+    height: 250px;
   }
 `;

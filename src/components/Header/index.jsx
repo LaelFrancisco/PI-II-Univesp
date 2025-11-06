@@ -28,6 +28,11 @@ const Logo = styled.span`
   font-weight: 700;
   font-size: 1.125rem;
   color: #111;
+  margin-right: auto;
+
+  @media (min-width: 768px) {
+    padding-left: 2rem;
+  }
 `;
 
 const Burger = styled.button`

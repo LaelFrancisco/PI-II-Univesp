@@ -6,6 +6,9 @@ import {
   FilterButton,
   PointsWrapper,
   PointCard,
+  Subtitle,
+  PointImage,
+  PointImagePlaceholder,
 } from "./styles";
 import Comentarios from "../../components/Comentarios";
 
@@ -80,7 +83,9 @@ export default function PontosTuristicos() {
   return (
     <Container>
       <h1>Pontos Turísticos</h1>
-      <p>Descubra os melhores lugares para visitar na nossa região</p>
+      <Subtitle>
+        Descubra os melhores lugares para visitar na nossa região
+      </Subtitle>
 
       <FilterWrapper>
         {cidades.map((cidade) => (
@@ -100,6 +105,19 @@ export default function PontosTuristicos() {
         <PointsWrapper>
           {pontosFiltrados.map((point) => (
             <PointCard key={point.id}>
+              {point.imagem ? (
+                <PointImage
+                  src={point.imagem}
+                  alt={point.nome}
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                  }}
+                />
+              ) : (
+                <PointImagePlaceholder>
+                  Imagem não disponível
+                </PointImagePlaceholder>
+              )}
               <h2>{point.nome}</h2>
               <p className="tipo">{point.tipo}</p>
               <p>{point.descricao}</p>

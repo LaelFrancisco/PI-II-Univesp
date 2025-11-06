@@ -9,6 +9,23 @@ export const Container = styled.div`
     text-align: center;
     margin-bottom: 1.5rem;
   }
+
+  p {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+`;
+
+export const Subtitle = styled.p`
+  font-size: 1.125rem;
+  color: #374151;
+  text-align: center;
+  margin: 0.75rem 0 2rem 0;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f3f4f6 0%, #f9fafb 100%);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-weight: 500;
 `;
 
 export const FilterWrapper = styled.div`
